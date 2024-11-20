@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Details</title>
+    <link rel="stylesheet" href="details.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Recipe Details</h1>
+        </header>
+        <main>
+            <div id="recipe-details"></div>
+        </main>
+    </div>
+    <script>
+        const MY_HOST = 'tasty.p.rapidapi.com';
+        const MY_KEY = '62672eae58mshea9da94cde31322p18444djsnc441e03489c3';
+
+        // Get the recipe ID from the URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const recipeId = urlParams.get('id');
+
+        // Fetch and display recipe details
+        async function fetchRecipeDetails() {
+            const url = `https://${MY_HOST}/recipes/get-more-info?id=${recipeId}`;
+            const options = {
+                headers: {
+                    'X-RapidAPI-Host': MY_HOST,
+                    'X-RapidAPI-Key': MY_KEY,
+                },
+            };
+
+            try {
+                const response = await fetch(url, options);
+                const recipe = await response.json();
+                displayRecipeDetails(recipe);
+            } catch (error) {
+                console.error('Error fetching recipe details:', error);
+                document.getElementById('recipe-details').innerHTML = '<p>Failed to load recipe details. Please try again later.</p>';
+            }
+        }
+
+        // Function to display recipe details
+        function displayRecipeDetails(recipe) {
+            const detailsContainer = document.getElementById('recipe-details');
+            const ingredients = recipe.sections
+                ?.flatMap(section => section.components)
+                ?.map(component => `<li>${component.raw_text}</li>`)
+                .join('') || '<li>No ingredients available</li>';
+
+            const instructions = recipe.instructions
+                ?.map(instruction => `<li>${instruction.display_text}</li>`)
+                .join('') || '<li>No instructions available</li>';
+
+            detailsContainer.innerHTML = `
+                <div class="recipe-card">
+                    <img src="${recipe.thumbnail_url}" alt="${recipe.name}" class="recipe-image">
+                    <h2>${recipe.name}</h2>
+                    <h3>Ingredients</h3>
+                    <ul>${ingredients}</ul>
+                    <h3>Instructions</h3>
+                    <ol>${instructions}</ol>
+                    <h3>Video</h3>
+                    ${
+                        recipe.original_video_url 
+                        ? `<iframe src="${recipe.original_video_url}" class="recipe-video" frameborder="0" allowfullscreen></iframe>` 
+                        : '<p>No video available.</p>'
+                    }
+                </div>
+            `;
+        }
+
+        // Call the function to fetch and display details
+        fetchRecipeDetails();
+    </script>
+</body>
+</html>
