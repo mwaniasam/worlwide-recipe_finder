@@ -1,0 +1,109 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+header {
+    background-color: #ff6f61;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+main {
+    padding: 1rem;
+}
+
+/* Search Section */
+#search-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+#search-bar {
+    width: 100%;
+    max-width: 600px;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+#search-button {
+    padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+#search-button:hover {
+    background-color: #e65d53;
+}
+
+/* Results Section */
+#results-section {
+    margin-top: 2rem;
+}
+
+#results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.result-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    width: calc(33% - 2rem);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.result-card img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.result-card h3 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #search-bar {
+        margin-bottom: 1rem;
+        width: 90%;
+    }
+
+    #search-button {
+        margin-left: 0;
+        width: 90%;
+    }
+
+    .result-card {
+        width: calc(50% - 2rem); /* Two cards per row */
+    }
+}
+
+@media (max-width: 480px) {
+    .result-card {
+        width: calc(100% - 2rem); /* Single card per row */
+    }
+
+    #search-bar,
+    #search-button {
+        width: 100%;
+    }
+}
